@@ -71,6 +71,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
             R.id.card4 -> { flip(4)}
             R.id.card5 -> { flip(5)}
             R.id.card6 -> { flip(6)}
+            
 
         }
     }
