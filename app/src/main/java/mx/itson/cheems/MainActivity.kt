@@ -1,6 +1,11 @@
 package mx.itson.cheems
 
+import android.content.Context
+import android.os.Build
 import android.os.Bundle
+import android.os.VibrationEffect
+import android.os.Vibrator
+import android.os.VibratorManager
 import android.util.Log
 import android.view.View
 import android.widget.ImageButton
@@ -42,6 +47,19 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
     fun flip(card : Int){
         if(card == gameOverCard){
             // Ya perdió
+
+            if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.S){
+                // Si la versión de Android del usuario es mayor o igual a la versión 12
+                val vibratorAdmin = applicationContext.getSystemService(Context.VIBRATOR_MANAGER_SERVICE) as VibratorManager
+                val vibrator = vibratorAdmin.defaultVibrator
+                vibrator.vibrate(VibrationEffect.createOneShot(1000, VibrationEffect.DEFAULT_AMPLITUDE))
+            } else {
+                // Si es menor a la 12, lo va a hacer de esta manera
+                val vibrator = applicationContext.getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
+                vibrator.vibrate(1000)
+            }
+
+
             Toast.makeText(this, getString(R.string.text_game_over), Toast.LENGTH_LONG).show()
 
             for(i in 1..6){
@@ -71,7 +89,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
             R.id.card4 -> { flip(4)}
             R.id.card5 -> { flip(5)}
             R.id.card6 -> { flip(6)}
-            
+
 
         }
     }
